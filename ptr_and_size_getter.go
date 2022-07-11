@@ -1,7 +1,6 @@
 package anyhash
 
 import (
-	"fmt"
 	"reflect"
 	"unsafe"
 )
@@ -29,7 +28,6 @@ type baseTypeGetter struct {
 
 func (b *baseTypeGetter) getPtrAndSize(p unsafe.Pointer) (unsafe.Pointer, uintptr) {
 	np := indirect(unsafe.Pointer(uintptr(p)+b.offset), b.ptrDepth)
-	fmt.Println(*(*bool)(np))
 	return np, b.elemSz
 }
 
