@@ -182,9 +182,10 @@ func getElemSzOfSlice(elemTyp reflect.Type) (int, error) {
 	return int(elemTyp.Size()), nil
 }
 
-func NewAnyHasher[T any](seed uint) (*AnyHasher[T], error) {
+func New[T any](seed uint) (*AnyHasher[T], error) {
 	var v T
 	val := reflect.ValueOf(v)
+
 	h := &AnyHasher[T]{
 		ptrAndSizeGetters: []ptrAndSizeGetter{},
 		seed:              seed,
@@ -193,6 +194,10 @@ func NewAnyHasher[T any](seed uint) (*AnyHasher[T], error) {
 	c := cycleDeclChecker{
 		typEdge:   map[string]map[string]struct{}{},
 		typVisits: map[string]visitStatus{},
+	}
+
+	if val.Kind() == reflect.Invalid {
+		return nil, errors.New("anyhash: got invalid type")
 	}
 
 	b := hashBuilder[T]{
