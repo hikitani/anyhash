@@ -1,6 +1,7 @@
 package anyhash
 
 import (
+	"fmt"
 	"testing"
 	"unsafe"
 )
@@ -188,5 +189,24 @@ func testDisallowedType[T any](v T) func(t *testing.T) {
 		if h != nil {
 			t.Fatal("returned object is not nil")
 		}
+	}
+}
+
+func BenchmarkAnyHasher(b *testing.B) {
+	h, err := New[[]byte](0)
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	for i := 2; i < 17; i++ {
+		l := 1 << i
+		b.Run(fmt.Sprintf("%dBytes", l), func(b *testing.B) {
+			bs := make([]byte, l)
+			b.SetBytes(int64(l))
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				h.GetHash(bs)
+			}
+		})
 	}
 }
