@@ -1,8 +1,10 @@
+//go:build 386 || arm || mips || mipsle
+
 package internal
 
 import "unsafe"
 
-func memhashFallback32(p unsafe.Pointer, seed, s uintptr) uintptr {
+func MemhashFallback(p unsafe.Pointer, seed, s uintptr) uintptr {
 	a, b := mix32(uint32(seed^(s>>32)), uint32(s))
 	if s == 0 {
 		return uintptr(a ^ b)

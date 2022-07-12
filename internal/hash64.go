@@ -1,3 +1,5 @@
+//go:build amd64 || arm64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
+
 package internal
 
 import (
@@ -13,7 +15,7 @@ const (
 	m5 = 0x1d8e4e27c47d124f
 )
 
-func memhashFallback64(p unsafe.Pointer, seed, s uintptr) uintptr {
+func MemhashFallback(p unsafe.Pointer, seed, s uintptr) uintptr {
 	var a, b uintptr
 	seed ^= m1
 	switch {

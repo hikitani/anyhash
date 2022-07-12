@@ -5,12 +5,7 @@ import (
 	"unsafe"
 )
 
-const is64Bit = uint64(^uintptr(0)) == ^uint64(0)
-
-var (
-	Endian          binary.ByteOrder
-	MemhashFallback func(p unsafe.Pointer, seed, s uintptr) uintptr
-)
+var Endian binary.ByteOrder
 
 func init() {
 	buf := [2]byte{}
@@ -23,11 +18,5 @@ func init() {
 		Endian = binary.BigEndian
 	default:
 		panic("Could not determine native endianness.")
-	}
-
-	if is64Bit {
-		MemhashFallback = memhashFallback64
-	} else {
-		MemhashFallback = memhashFallback32
 	}
 }
