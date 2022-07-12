@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-var Endian binary.ByteOrder
+var endian binary.ByteOrder
 
 func init() {
 	buf := [2]byte{}
@@ -13,10 +13,20 @@ func init() {
 
 	switch buf {
 	case [2]byte{0xCD, 0xAB}:
-		Endian = binary.LittleEndian
+		endian = binary.LittleEndian
 	case [2]byte{0xAB, 0xCD}:
-		Endian = binary.BigEndian
+		endian = binary.BigEndian
 	default:
 		panic("Could not determine native endianness.")
 	}
+}
+
+func r4(p unsafe.Pointer) uintptr {
+	q := (*[4]byte)(p)
+	return uintptr(endian.Uint32(q[:]))
+}
+
+func r8(p unsafe.Pointer) uintptr {
+	q := (*[8]byte)(p)
+	return uintptr(endian.Uint64(q[:]))
 }

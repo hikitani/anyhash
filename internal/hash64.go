@@ -65,13 +65,3 @@ func mix(a, b uintptr) uintptr {
 	hi, lo := bits.Mul64(uint64(a), uint64(b))
 	return uintptr(hi ^ lo)
 }
-
-func r4(p unsafe.Pointer) uintptr {
-	q := (*[4]byte)(p)
-	return uintptr(Endian.Uint32(q[:]))
-}
-
-func r8(p unsafe.Pointer) uintptr {
-	q := (*[8]byte)(p)
-	return uintptr(Endian.Uint64(q[:]))
-}
