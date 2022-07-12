@@ -5,6 +5,8 @@ import (
 	"unsafe"
 )
 
+const is64Bit = uint64(^uintptr(0)) == ^uint64(0)
+
 var endian binary.ByteOrder
 
 func init() {

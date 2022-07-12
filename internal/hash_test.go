@@ -369,7 +369,10 @@ func TestSmhasherAvalanche(t *testing.T) {
 	avalancheTest1(t, &BytesKey{make([]byte, 32)})
 	avalancheTest1(t, &BytesKey{make([]byte, 200)})
 	avalancheTest1(t, &Int32Key{})
-	avalancheTest1(t, &Int64Key{})
+
+	if is64Bit {
+		avalancheTest1(t, &Int64Key{})
+	}
 }
 func avalancheTest1(t *testing.T, k Key) {
 	const REP = 100000
